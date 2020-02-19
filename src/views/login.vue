@@ -157,6 +157,7 @@ export default {
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
+        // 调用接口
         if (valid) {
           alert("submit!");
         } else {
