@@ -47,7 +47,6 @@ export default {
   name: "login",
   setup(props, { refs, root }) {
     var checkUsername = (rule, value, callback) => {
-      console.log('checkusername');
       if (value === "") {
         return callback(new Error("请输入用户名！"));
       } else if (emailValiadata(value)) {
@@ -127,13 +126,16 @@ export default {
     }
     const submitForm = ((formName)=> {
       refs[formName].validate(valid => {
-        // 调用接口
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
+        // 不调接口 直接跳转
+        root.$router.push({
+            name: 'Console'
+          })
+        // if (valid) {
+        //   alert("submit!");
+        // } else {
+        //   console.log("error submit!!");
+        //   return false;
+        // }
       });
     })
     const resetForm = ((formName) => {
