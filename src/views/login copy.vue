@@ -17,26 +17,36 @@
       ref="ruleForm"
       label-position="left"
     >
-      <el-form-item prop="username">
-        <label for="">用户名</label>
+      <el-form-item label="用户名" prop="username">
         <el-input
           type="text"
           v-model="ruleForm.username"
           autocomplete="off"
         ></el-input>
       </el-form-item>
-      <el-form-item prop="password">
-        <label for="">密码</label>
+      <el-form-item label="密码" prop="password">
         <el-input
           type="password"
           v-model="ruleForm.password"
           autocomplete="off"
         ></el-input>
       </el-form-item>
+      <el-form-item label="重复密码" prop="repeatPass" v-if="mode === 'register'">
+        <el-input
+          type="password"
+          v-model="ruleForm.repeatPass"
+          autocomplete="off"
+        ></el-input>
+      </el-form-item>
       <el-row :gutter="15" class="sendCodeNumber">
         <el-col :span="18">
           <el-form-item label="验证码" prop="codeNumber">
-            <el-input v-model.number="ruleForm.codeNumber"> </el-input>
+            <el-input
+              maxlength="6"
+              minlength="6"
+              v-model.number="ruleForm.codeNumber"
+            >
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -54,70 +64,102 @@
     </el-form>
   </div>
 </template>
-
 <script>
+import {} from '@vue/composition-api'
+import {
+  stripscript,
+  emailValiadata,
+  passlValiadata,
+  codeValiadata
+} from "@/utils/validate";
 export default {
-  name: "login",
+  name: 'login',
   data() {
+    var checkUsername = (rule, value, callback) => {
+      if (value === "") {
+        return callback(new Error("请输入用户名！"));
+      } else if (emailValiadata(value)) {
+        callback(new Error("请输入正确的邮箱格式！"));
+      } else {
+        callback();
+      }
+    };
+    // 验证密码
+    var validatePassword = (rule, value, callback) => {
+      this.ruleForm.password = stripscript(value);
+      value = this.ruleForm.password;
+      if (value === "") {
+        callback(new Error("请输入密码！"));
+      } else if (passlValiadata(value)) {
+        callback(new Error("请输入数字加字母组合的密码！"));
+      } else {
+        callback();
+      }
+    };
+    // 验证重复密码
+    var validatePassword2 = (rule, value, callback) => {
+      this.ruleForm.passwords = stripscript(value);
+      value = this.ruleForm.passwords;
+      if (value === "") {
+        callback(new Error("请再次输入密码！"));
+      } else if (value != this.ruleForm.password) {
+        callback(new Error("重复密码不正确"));
+      } else {
+        callback();
+      }
+    };
+    // 验证验证码
+    var validateCodeNumber = (rule, value, callback) => {
+      this.ruleForm.codeNumber = stripscript(value);
+       value = this.ruleForm.codeNumber
+      if (value === "") {
+        callback(new Error("请输入验证码"));
+      } else if (!codeValiadata(value)) {
+        callback(new Error("请正确输入六位验证码"));
+      } else {
+        callback();
+      }
+    };
     return {
       menuTab: [
         {
           txt: "登录",
-          classValue: true
+          classValue: true,
+          type: 'login'
         },
         {
           txt: "注册",
-          classValue: false
+          classValue: false,
+          type: 'register'
         }
       ],
+      mode: 'login',
       ruleForm: {
         username: "",
         password: "",
+        repeatPass: "",
         codeNumber: ""
       },
       rules: {
-        username: [{ validator: validateUser, trigger: "blur" }],
-        password: [{ validator: validatePass, trigger: "blur" }],
-        codeNumber: [{ validator: validateNumber, trigger: "blur" }]
-      }
-    };
-    var validateUser = (rule, value, callback) => {
-      console.log('1');
-      
-      if (!value) {
-        return callback(new Error("年龄不能为空"));
-      }
-    };
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
-        callback();
-      }
-    };
-    var validateNumber = (rule, value, callback) => {
-        console.log(rule, value);
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
+        username: [{ validator: checkUsername, trigger: "blur" }],
+        password: [{ validator: validatePassword, trigger: "blur" }],
+        codeNumber: [{ validator: validateCodeNumber, trigger: "blur" }],
+        repeatPass:[{ validator: validatePassword2, trigger: "blur" }]
       }
     };
   },
   methods: {
     toggleMenuTag(item) {
+      this.$refs.ruleForm.resetFields()  // 切换清零
       this.menuTab.forEach(menu => {
         menu.classValue = false;
       });
       item.classValue = true;
+      this.mode = item.type
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
+        // 调用接口
         if (valid) {
           alert("submit!");
         } else {
@@ -132,7 +174,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
 .error {
   background-color: antiquewhite;
@@ -142,7 +183,7 @@ export default {
   width: 500px;
   margin: 0 auto;
   .header-button {
-      text-align: center;
+    text-align: center;
     //   width: 200px;
   }
   .submitClass {

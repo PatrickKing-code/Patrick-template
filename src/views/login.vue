@@ -7,46 +7,22 @@
         :key="item.id"
         type="danger"
         :class="{ error: item.classValue }"
-        >{{ item.txt }}</el-button
-      >
+      >{{ item.txt }}</el-button>
     </div>
-    <el-form
-      :model="ruleForm"
-      status-icon
-      :rules="rules"
-      ref="ruleForm"
-      label-position="left"
-    >
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-position="left">
       <el-form-item label="用户名" prop="username">
-        <el-input
-          type="text"
-          v-model="ruleForm.username"
-          autocomplete="off"
-        ></el-input>
+        <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input
-          type="password"
-          v-model="ruleForm.password"
-          autocomplete="off"
-        ></el-input>
+        <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="重复密码" prop="repeatPass" v-if="mode === 'register'">
-        <el-input
-          type="password"
-          v-model="ruleForm.repeatPass"
-          autocomplete="off"
-        ></el-input>
+        <el-input type="password" v-model="ruleForm.repeatPass" autocomplete="off"></el-input>
       </el-form-item>
       <el-row :gutter="15" class="sendCodeNumber">
         <el-col :span="18">
           <el-form-item label="验证码" prop="codeNumber">
-            <el-input
-              maxlength="6"
-              minlength="6"
-              v-model.number="ruleForm.codeNumber"
-            >
-            </el-input>
+            <el-input maxlength="6" minlength="6" v-model.number="ruleForm.codeNumber"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -54,17 +30,13 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button
-          type="primary"
-          class="submitClass"
-          @click="submitForm('ruleForm')"
-          >提交</el-button
-        >
+        <el-button type="primary" class="submitClass" @click="submitForm('ruleForm')">提交</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
+import { reactive, ref } from "@vue/composition-api";
 import {
   stripscript,
   emailValiadata,
@@ -72,8 +44,10 @@ import {
   codeValiadata
 } from "@/utils/validate";
 export default {
-  data() {
+  name: "login",
+  setup(props, { refs, root }) {
     var checkUsername = (rule, value, callback) => {
+      console.log('checkusername');
       if (value === "") {
         return callback(new Error("请输入用户名！"));
       } else if (emailValiadata(value)) {
@@ -84,8 +58,8 @@ export default {
     };
     // 验证密码
     var validatePassword = (rule, value, callback) => {
-      this.ruleForm.password = stripscript(value);
-      value = this.ruleForm.password;
+      ruleForm.password = stripscript(value);
+      value = ruleForm.password;
       if (value === "") {
         callback(new Error("请输入密码！"));
       } else if (passlValiadata(value)) {
@@ -96,8 +70,8 @@ export default {
     };
     // 验证重复密码
     var validatePassword2 = (rule, value, callback) => {
-      this.ruleForm.passwords = stripscript(value);
-      value = this.ruleForm.passwords;
+      ruleForm.passwords = stripscript(value);
+      value = ruleForm.passwords;
       if (value === "") {
         callback(new Error("请再次输入密码！"));
       } else if (value != this.ruleForm.password) {
@@ -108,8 +82,8 @@ export default {
     };
     // 验证验证码
     var validateCodeNumber = (rule, value, callback) => {
-      this.ruleForm.codeNumber = stripscript(value);
-       value = this.ruleForm.codeNumber
+      ruleForm.codeNumber = stripscript(value);
+      value = ruleForm.codeNumber;
       if (value === "") {
         callback(new Error("请输入验证码"));
       } else if (!codeValiadata(value)) {
@@ -118,45 +92,41 @@ export default {
         callback();
       }
     };
-    return {
-      menuTab: [
-        {
-          txt: "登录",
-          classValue: true,
-          type: 'login'
-        },
-        {
-          txt: "注册",
-          classValue: false,
-          type: 'register'
-        }
-      ],
-      mode: 'login',
-      ruleForm: {
-        username: "",
-        password: "",
-        repeatPass: "",
-        codeNumber: ""
+    const menuTab = reactive([
+      {
+        txt: "登录",
+        classValue: true,
+        type: "login"
       },
-      rules: {
-        username: [{ validator: checkUsername, trigger: "blur" }],
-        password: [{ validator: validatePassword, trigger: "blur" }],
-        codeNumber: [{ validator: validateCodeNumber, trigger: "blur" }],
-        repeatPass:[{ validator: validatePassword2, trigger: "blur" }]
+      {
+        txt: "注册",
+        classValue: false,
+        type: "register"
       }
-    };
-  },
-  methods: {
-    toggleMenuTag(item) {
-      this.$refs.ruleForm.resetFields()  // 切换清零
-      this.menuTab.forEach(menu => {
+    ]);
+    const ruleForm = reactive({
+      username: "",
+      password: "",
+      repeatPass: "",
+      codeNumber: ""
+    });
+    const rules = reactive({
+      username: [{ validator: checkUsername, trigger: "blur" }],
+      password: [{ validator: validatePassword, trigger: "blur" }],
+      codeNumber: [{ validator: validateCodeNumber, trigger: "blur" }],
+      repeatPass: [{ validator: validatePassword2, trigger: "blur" }]
+    });
+    const mode = ref('login');
+    const toggleMenuTag = (item)=> {
+      menuTab.forEach(menu => {
         menu.classValue = false;
       });
+      refs.ruleForm.resetFields(); // 切换清零
       item.classValue = true;
-      this.mode = item.type
-    },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      mode.value = item.type;
+    }
+    const submitForm = (formName)=> {
+      refs[formName].validate(valid => {
         // 调用接口
         if (valid) {
           alert("submit!");
@@ -165,12 +135,21 @@ export default {
           return false;
         }
       });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
     }
+    const resetForm =(formName)=> {
+      refs[formName].resetFields()
+    }
+    return {
+      menuTab,
+      ruleForm,
+      rules,
+      mode,
+      toggleMenuTag,
+      submitForm,
+      resetForm
+    };
   }
-};
+}
 </script>
 <style lang="scss">
 .error {
