@@ -21,7 +21,8 @@ const routes = [
     path: "/console",
     name: "Console",
     meta: {
-      name: '控制台'
+      name: '控制台',
+      icon: 'one'
     },
     redirect: 'dashboard',
     component: Layout,
@@ -40,7 +41,8 @@ const routes = [
     path: "/info",
     name: "Info",
     meta: {
-      name: '信息管理'
+      name: '信息管理',
+      icon: 'nine'
     },
     component: Layout,
     children: [
@@ -66,7 +68,8 @@ const routes = [
     path: "/user",
     name: "User",
     meta: {
-      name: '用户管理'
+      name: '用户管理',
+      icon: 'ten'
     },
     component: Layout,
     children: [
@@ -77,6 +80,79 @@ const routes = [
           name: '用户列表'
         },
         component: () => import('../views/user/userList.vue')
+      }
+    ]
+  },
+  {
+    path: "/icon",
+    name: "Icon",
+    meta: {
+      name: '字体图标',
+      icon: 'six'
+    },
+    component: Layout,
+    children: [
+      {
+        path: "/iconComponent",
+        name: "IconComponent",
+        meta: {
+          name: '封装组件'
+        },
+        component: () => import('../views/icon/iconComponent.vue')
+      }
+    ]
+  },
+  {
+    path: "/table",
+    name: "Table",
+    meta: {
+      name: '表格',
+      icon: 'five'
+    },
+    component: Layout,
+    children: [
+      {
+        path: "/baseTable",
+        name: "BaseTable",
+        meta: {
+          name: '基础表格'
+        },
+        component: () => import('../views/table/baseTable.vue')
+      },
+      {
+        path: "/complexTable",
+        name: "ComplexTable",
+        meta: {
+          name: '复杂表格'
+        },
+        component: () => import('../views/table/conplexTable.vue')
+      }
+    ]
+  },
+  {
+    path: "/upload",
+    name: "Upload",
+    meta: {
+      name: '上传文件',
+      icon: 'seven'
+    },
+    component: Layout,
+    children: [
+      {
+        path: "/formDataUpload",
+        name: "FormDataUpload",
+        meta: {
+          name: 'formData'
+        },
+        component: () => import('../views/upload/formDataUpload.vue')
+      },
+      {
+        path: "/base64aUpload",
+        name: "Base64aUpload",
+        meta: {
+          name: 'base64'
+        },
+        component: () => import('../views/upload/base64Upload.vue')
       }
     ]
   }

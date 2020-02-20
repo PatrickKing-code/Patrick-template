@@ -10,7 +10,15 @@ module.exports = {
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
   chainWebpack: config => {
-   
+    const svgRule = config.module.rule("svg");
+    svgRule.uses.clear();
+    svgRule
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({
+        symbolId: "icon-[name]",
+        include: ["./src/icon"]
+      });
   },
   configureWebpack: config => {
     config.resolve = {
@@ -34,7 +42,7 @@ module.exports = {
     // css预设器配置项
     loaderOptions: {
       sass: {
-        prependData: `@import "./src/assets/scss/main.scss";`
+        prependData: `@import "./src/style/scss/main.scss";`
       }
     },
     // 启用 CSS modules for all css / pre-processor files.

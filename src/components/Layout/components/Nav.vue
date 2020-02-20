@@ -1,25 +1,23 @@
 <template>
   <div id="nav-wrap">
     <!-- <h1>Patrick</h1> -->
-    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-      <el-radio-button :label="false">展开</el-radio-button>
-      <el-radio-button :label="true">收起</el-radio-button>
-    </el-radio-group>
+    <div class="logo">
+      Patrick
+    </div>
     <el-menu
       default-active=""
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       :collapse="isCollapse"
       background-color="transparent"
       text-color="rgb(191, 203, 217)"
-      active-text-color="#fff" router
+      active-text-color="#fff"
+      router
     >
       <template v-for="(item, index) in routes">
-        <el-submenu :key="item.id" v-if="!item.hidden" :index="index+ ''">
+        <el-submenu :key="item.id" v-if="!item.hidden" :index="index + ''">
           <!-- 一级菜单 -->
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <svg-icon :iconClass="item.meta.icon" className="font20"></svg-icon>
             <span slot="title">{{ item.meta.name }}</span>
           </template>
           <!-- 子菜单 -->
@@ -32,39 +30,66 @@
         </el-submenu>
       </template>
     </el-menu>
+    <!-- <svg-icon iconClass="nine" className=""></svg-icon> -->
   </div>
 </template>
 <script>
-import { reactive, computed, ref } from "@vue/composition-api";
+import { reactive, computed, ref, onMounted } from "@vue/composition-api";
 export default {
   // compiler
   name: "navMenu",
   setup(props, { refs, root }) {
-    const isCollapse = ref(false);
     const routes = reactive(root.$router.options.routes);
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
+    const isCollapse = computed(() => {
+      return root.$store.state.app.isCollapse;
+    });
     return {
       isCollapse,
-      handleOpen,
-      handleClose,
       routes
     };
   }
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../assets/scss/config.scss";
+@import "../../../style/scss/config.scss";
 #nav-wrap {
   position: absolute;
   left: 0;
   top: 0;
-  width: $navMenu;
   height: 100vh;
   background-color: rgb(0, 21, 41);
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  -ms-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  img {
+    display: block;
+    margin: auto;
+  }
+  .logo {
+    width: 250px;
+    height: 50px;
+    color: aliceblue;
+    font-size: 36px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    line-height: 50px;
+    text-align: center;
+  }
+}
+.open {
+  #nav-wrap {
+    width: $navMenu;
+  }
+}
+.close {
+  #nav-wrap {
+    width: $navMenuMin;
+    .logo {
+      font-size: 10px;
+      width: 50px;
+    }
+  }
 }
 </style>

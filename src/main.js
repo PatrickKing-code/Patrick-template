@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 import VueCompositionApi from '@vue/composition-api'
+import './icon'
 Vue.config.productionTip = false
 
 Vue.use(VueCompositionApi)
