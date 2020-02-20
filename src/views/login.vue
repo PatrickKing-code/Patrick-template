@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-import { reactive, ref } from "@vue/composition-api";
+import { reactive, ref, onMounted } from "@vue/composition-api";
 import {
   stripscript,
   emailValiadata,
@@ -125,7 +125,7 @@ export default {
       item.classValue = true;
       mode.value = item.type;
     }
-    const submitForm = (formName)=> {
+    const submitForm = ((formName)=> {
       refs[formName].validate(valid => {
         // 调用接口
         if (valid) {
@@ -135,10 +135,13 @@ export default {
           return false;
         }
       });
-    }
-    const resetForm =(formName)=> {
+    })
+    const resetForm = ((formName) => {
       refs[formName].resetFields()
-    }
+    })
+    onMounted( ()=> {
+      console.log('2 to 3 is ready');
+    })
     return {
       menuTab,
       ruleForm,
