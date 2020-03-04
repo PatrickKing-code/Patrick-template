@@ -1,22 +1,42 @@
+import { Login } from "../../api/login";
+import { setToken, setUsername, getUsername } from '../../utils/login'
 const state = {
-  isCollapse: JSON.parse(sessionStorage.getItem("isCollapse")) || false
+  token: "",
+  username: getUsername() || ''
 };
 
 const getters = {
-  isCollapse: state => state.isCollapse
 };
 
 const mutations = {
   // 必须的  同步 没有回调处理事情
-  SET_COLLAPSE(state) {
-    state.isCollapse = !state.isCollapse;
-    // html5本地储存
-    sessionStorage.setItem("isCollapse", JSON.stringify(state.isCollapse));
+  SET_TOKEN(state, value) {
+    state.token = value;
+  },
+  SET_USERNAME(state, value) {
+    state.username = value;
   }
 };
 
 const actions = {
-  // 可以回调处理事情
+  login(cxt, requestDate) {
+    return new Promise((resolve, reejct) => {
+      Login(requestDate)
+        .then(response => {
+          let data = response.data.data
+          console.log(data);
+          // token  username
+          cxt.commit('SET_TOKEN', data.token)
+          cxt.commit('SET_USERNAME', data.username)
+          setToken(data.token)
+          setUsername(data.username)
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 };
 
 export default {

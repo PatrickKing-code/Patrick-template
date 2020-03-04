@@ -5,24 +5,35 @@
     </div>
     <div class="pull-right">
       <div class="user-info pull-left">
-        管理员
+        {{ username }}
       </div>
-      <div class="header-icon pull-left">
-        <svg-icon iconClass="ten" class="font20"></svg-icon>
+      <div class="header-icon pull-left" @click="logout">
+        <svg-icon iconClass="two" class="font20"></svg-icon>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { computed } from "@vue/composition-api";
+import { removeToken, removeUsername } from "../../../utils/login";
 export default {
   name: "layoutHeader",
   setup(props, { root }) {
     const navMenuState = () => {
       root.$store.commit("app/SET_COLLAPSE");
     };
+    const logout = () => {
+      removeToken();
+      removeUsername();
+      root.$router.push("/");
+    };
+    const username = computed(() => {
+      return root.$store.state.login.username;
+    });
     return {
-      navMenuState
+      navMenuState,
+      username,
+      logout
     };
   }
 };

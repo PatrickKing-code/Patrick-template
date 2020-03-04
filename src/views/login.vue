@@ -191,28 +191,46 @@ export default {
       });
     };
     const login = () => {
-      console.log("登录了");
+      let requestDate = {
+        username: ruleForm.username,
+        password: ruleForm.password,
+        code: ruleForm.codeNumber,
+        mode: "login"
+      };
+      root.$store.dispatch('login/login', requestDate).then( response => {
+        root.$message({
+          message: response.data.message,
+          type: 'success'
+        })
+        root.$router.push({
+          name: 'Console'
+        }).catch( error => {
+          console.log('error', error);
+        })
+      })
     };
     const register = () => {
       let requestDate = {
         username: ruleForm.username,
         password: ruleForm.password,
         code: ruleForm.codeNumber,
-        mode: 'register'
-      }
-      Register(requestDate).then( res=> {
-        let data = res.data 
-        root.$message({
-          message: data.message,
-          type: 'success'
+        mode: "register"
+      };
+      Register(requestDate)
+        .then(res => {
+          let data = res.data;
+          root.$message({
+            message: data.message,
+            type: "success"
+          });
+          toggleMenuTag(menuTab[0]);
         })
-        toggleMenuTag(menuTab[0])
-      }).catch( error => {
-        root.$message({
-          message: data.message,
-          type: 'error'
-        })
-      })
+        .catch(error => {
+          root.$message({
+            message: data.message,
+            type: "error"
+          });
+        });
     };
     const resetForm = formName => {
       refs[formName].resetFields();
