@@ -63,10 +63,6 @@ export default {
   -o-transition: all 0.3s ease 0s;
   -ms-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
-  img {
-    display: block;
-    margin: auto;
-  }
   .logo {
     width: 250px;
     height: 50px;

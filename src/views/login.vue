@@ -182,13 +182,18 @@ export default {
       mode.value = item.type;
     };
     const submitForm = formName => {
-      refs[formName].validate(valid => {
-        if (valid) {
-          mode.value == "login" ? login() : register();
-        } else {
-          return false;
-        }
-      });
+      root.$router.push({
+          name: 'Console'
+        }).catch( error => {
+          console.log('error', error);
+        })
+      // refs[formName].validate(valid => {
+      //   if (valid) {
+      //     mode.value == "login" ? login() : register();
+      //   } else {
+      //     return false;
+      //   }
+      // });
     };
     const login = () => {
       let requestDate = {
