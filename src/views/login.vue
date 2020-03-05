@@ -152,7 +152,6 @@ export default {
     // 获取验证码
 
     const getCode = () => {
-      console.log(mode.value);
       let requestDate = {
         username: ruleForm.username,
         module: mode.value
@@ -236,7 +235,6 @@ export default {
       refs[formName].resetFields();
     };
     onMounted(() => {
-      // console.log('2 to 3 is ready');
     });
     return {
       menuTab,

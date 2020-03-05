@@ -1,6 +1,5 @@
 <template>
   <div id="nav-wrap">
-    <!-- <h1>Patrick</h1> -->
     <div class="logo">
       Patrick
     </div>

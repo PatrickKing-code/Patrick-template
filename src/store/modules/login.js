@@ -24,7 +24,6 @@ const actions = {
       Login(requestDate)
         .then(response => {
           let data = response.data.data
-          console.log(data);
           // token  username
           cxt.commit('SET_TOKEN', data.token)
           cxt.commit('SET_USERNAME', data.username)

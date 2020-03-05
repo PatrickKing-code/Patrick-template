@@ -21,10 +21,11 @@ export default {
 }
 .main-content {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding-left: $navMenu + 30;
   padding-top: $layoutHeader + 30;
   padding-right: 30px;
+  padding-bottom: 0px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -34,7 +35,7 @@ export default {
 
 .content {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: #fff;
 }
 .open {
