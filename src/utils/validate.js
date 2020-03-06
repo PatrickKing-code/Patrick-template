@@ -26,7 +26,8 @@ export function passlValiadata(value){
 /**
  * 验证验证码
  */
+
 export function codeValiadata(value){
     let reg = /^[a-z0-9]{6}$/;
-    return reg.test(value) ? true : false;
+    return !reg.test(value) ? true : false;
 }

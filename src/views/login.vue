@@ -118,7 +118,7 @@ export default {
       value = ruleForm.codeNumber;
       if (value === "") {
         callback(new Error("请输入验证码"));
-      } else if (!codeValiadata(value)) {
+      } else if (codeValiadata(value)) {
         callback(new Error("请正确输入六位验证码"));
       } else {
         callback();

@@ -79,10 +79,5 @@ export default {
   padding: 0 32px;
   border-right: 1px solid #ededed;
 }
-.pull-left {
-  float: left;
-}
-.pull-right {
-  float: right;
-}
+
 </style>

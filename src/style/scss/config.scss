@@ -3,3 +3,25 @@
 $navMenu: 250px;
 $navMenuMin: 64px;
 $layoutHeader: 75px;
+.pull-right {
+  float: right;
+}
+@mixin webkit($type, $value) {
+  -webkit-#{$type}: $value;
+  -moz-#{$type}: $value;
+  -o-#{$type}: $value;
+  -ms-#{$type}: $value;
+  #{$type}: $value;
+}
+
+@mixin labelDom($align, $width, $line-height: "normal") {
+  label {
+    float: left;
+    width: $width + px;
+    text-align: $align;
+    line-height: $line-height + px;
+  }
+  .warp-content {
+    margin-left: $width + px;
+  }
+}
