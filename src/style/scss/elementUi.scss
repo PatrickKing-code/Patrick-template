@@ -35,3 +35,8 @@
     background-color: rgb(0, 17, 33) !important;
   }
 }
+
+/* table的样式 */
+.el-table__header .el-table td, .el-table__header .el-table th {
+  text-align: center;
+}

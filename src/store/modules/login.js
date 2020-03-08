@@ -20,7 +20,7 @@ const mutations = {
 
 const actions = {
   login(cxt, requestDate) {
-    return new Promise((resolve, reejct) => {
+    return new Promise((resolve, reject) => {
       Login(requestDate)
         .then(response => {
           let data = response.data.data
