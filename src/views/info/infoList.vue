@@ -134,7 +134,7 @@
         >
         </el-pagination>
         <!-- dialog -->
-        <AddDialog :isShow="add_dialog" />
+        <AddDialog :isShow="add_dialog" @closeDialog="closeDialog" @sendIsShow="receptIsShow"/>
       </el-col>
     </el-row>
   </div>
@@ -149,7 +149,7 @@ export default {
   },
   setup(props, { root, refs }) {
     const category_value = ref("");
-    const add_dialog = ref(false);
+    let add_dialog = ref(false);
     const totalNumber = ref(100);
     const currentPage = ref(1);
     const date_value = ref("");
@@ -215,6 +215,12 @@ export default {
     const handleCurrentChange = val => {
       console.log(`当前页: ${val}`);
     };
+    const receptIsShow = (newVal) => {
+      add_dialog = newVal
+    }
+    const closeDialog = () => {
+      console.log('123');
+    }
     return {
       category_value,
       options,
@@ -229,7 +235,8 @@ export default {
       handleSizeChange,
       handleCurrentChange,
       totalNumber,
-      add_dialog
+      add_dialog,
+      receptIsShow
     };
   }
 };

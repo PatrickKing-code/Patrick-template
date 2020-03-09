@@ -1,23 +1,31 @@
 <template>
-  <el-dialog title="收货地址" :visible.sync="isShow">
+  <el-dialog title="收货地址" :visible.sync="isShow" @close="close">
     add_dialog
   </el-dialog>
 </template>
 
 <script>
-import { ref } from '@vue/composition-api';
 export default {
   name: "addDialog",
   props: {
-      isShow: {
-          type: Boolean,
-          default: false
+    isShow: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+    //  isShow: false
+    };
+  },
+  methods: {
+      close() {
+          this.$emit('closeDialog', false)
       }
   },
-  setup(props, {root, refs}){
-      console.log(props);
-      return {
-        //   add_dialog
+  watch: {
+      isShow(newValue) {
+          this.isShow = newValue
       }
   }
 };
