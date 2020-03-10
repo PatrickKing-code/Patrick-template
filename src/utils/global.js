@@ -1,5 +1,6 @@
 import { MessageBox } from 'element-ui'
 export default {
+    // 21135
     install(Vue, options) {
         Vue.prototype.confirm = function (parmas) {
             MessageBox.confirm(parmas.content, parmas.tip ||'提示', {
