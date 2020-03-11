@@ -1,7 +1,5 @@
 <template>
   <div :inline="true">
-    <el-button @click="getParams">getParams</el-button>
-    <!-- 封装el-select -->
     <SelectCom :config="data.configOption" />
   </div>
 </template>
@@ -15,9 +13,7 @@ export default {
     const data = reactive({
       configOption: ['username', 'id']
     })
-    const getParams = () => {};
     return {
-      getParams,
       data
     }
   }
