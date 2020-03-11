@@ -1,40 +1,24 @@
 <template>
-  <div>
-    <el-select v-model="selectValue" filterable placeholder="请选择">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      >
-      </el-option>
-    </el-select>
-    <el-input v-model="inputValue"></el-input>
+  <div :inline="true">
     <el-button @click="getParams">getParams</el-button>
+    <!-- 封装el-select -->
+    <SelectCom :config="data.configOption" />
   </div>
 </template>
 
 <script>
+import SelectCom from "../../components/Select";
+import { reactive } from '@vue/composition-api'
 export default {
-  data() {
+  components: { SelectCom },
+  setup(props, { root }) {
+    const data = reactive({
+      configOption: ['username', 'id']
+    })
+    const getParams = () => {};
     return {
-      options: [
-        {
-          value: "username",
-          label: "用户名"
-        },
-        {
-          value: "email",
-          label: "邮箱"
-        }
-      ],
-      inputValue: "",
-      selectValue: ""
-    };
-  },
-  methods: {
-    getParams() {
-      console.log({ [this.selectValue]: this.inputValue });
+      getParams,
+      data
     }
   }
 };
