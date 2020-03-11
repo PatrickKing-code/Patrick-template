@@ -123,7 +123,7 @@ const routes = [
         path: "/complexTable",
         name: "ComplexTable",
         meta: {
-          name: '复杂表格'
+          name: '对象key是变量传参'
         },
         component: () => import('../views/table/conplexTable.vue')
       }
