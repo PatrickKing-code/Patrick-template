@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import SelectCom from "../../components/Select";
+import SelectCom from '../../components/Select'
 import { reactive } from '@vue/composition-api'
 export default {
   components: { SelectCom },

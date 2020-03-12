@@ -155,6 +155,33 @@ const routes = [
         component: () => import('../views/upload/base64Upload.vue')
       }
     ]
+  },
+  {
+    path: "/componentsPackage",
+    name: "ComponentsPackage",
+    meta: {
+      name: '全局组件',
+      icon: 'eight'
+    },
+    component: Layout,
+    children: [
+      {
+        path: "/selectComponent",
+        name: "SelectComponent",
+        meta: {
+          name: '下拉组件'
+        },
+        component: () => import('../views/componentsPackage/selCom.vue')
+      },
+      {
+        path: "/tableComponent",
+        name: "TableComponent",
+        meta: {
+          name: '表单组件'
+        },
+        component: () => import('../views/componentsPackage/tableCom.vue')
+      }
+    ]
   }
 ];
 export default routes;
