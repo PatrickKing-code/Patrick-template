@@ -21,7 +21,6 @@
 <script>
 import TableVue from "../../components/Table";
 import { reactive } from "@vue/composition-api";
-import { requestUrl } from '../../api/requestUrl'
 export default {
   components: { TableVue },
   setup(props, { root }) {
@@ -31,11 +30,6 @@ export default {
         selection: true,
         // 多选点击后下一页返回上一页还显示  翻页记录
         recoredCheckbox: true,
-        // 接口地址
-        requestData: {
-          url: 'getUserList',
-          method: 'post'
-        },
         // 表头
         tHead: [
           {

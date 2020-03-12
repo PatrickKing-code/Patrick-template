@@ -182,6 +182,33 @@ const routes = [
         component: () => import('../views/componentsPackage/tableCom.vue')
       }
     ]
+  },
+  {
+    path: "/componentsPackage",
+    name: "ComponentsPackage",
+    meta: {
+      name: '全局组件api',
+      icon: 'nine'
+    },
+    component: Layout,
+    children: [
+      {
+        path: "/selectComponent2",
+        name: "SelectComponent2",
+        meta: {
+          name: '下拉组件api'
+        },
+        component: () => import('../views/componentsPackage2/selCom.vue')
+      },
+      {
+        path: "/tableComponent2",
+        name: "TableComponent2",
+        meta: {
+          name: '表单组件api'
+        },
+        component: () => import('../views/componentsPackage2/tableCom.vue')
+      }
+    ]
   }
 ];
 export default routes;

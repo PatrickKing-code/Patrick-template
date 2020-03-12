@@ -15,8 +15,8 @@
         :prop="item.field"
         :label="item.label"
       >
-        <template>
-          <slot :name="item.slotName"></slot>
+        <template slot-scope="scope">
+          <slot :name="item.slotName" :data="scope.row"></slot>
         </template>
       </el-table-column>
       <el-table-column
@@ -37,6 +37,7 @@ import {
   onBeforeUpdate,
   reactive
 } from "@vue/composition-api";
+import { loadingTableData } from "../../api/login";
 export default {
   name: "tableVue",
   props: {
@@ -53,7 +54,8 @@ export default {
       tableConfig: {
         tHead: [],
         selection: true,
-        recoredCheckbox: true
+        recoredCheckbox: true,
+        requestData: {}
       },
       tableData: [
         {
@@ -65,7 +67,7 @@ export default {
         },
         {
           email: "2016-05-02",
-          name: "王小虎",
+          name: "李四",
           phone: "13587845457",
           address: "上海市普陀区金沙江路 1519 弄",
           role: "管理员"
@@ -74,12 +76,27 @@ export default {
     });
     onBeforeMount(() => {
       initTableConfig();
+      loadingData();
     });
     const initTableConfig = () => {
       let configData = props.config;
+      let keys = Object.keys(data.tableConfig);
       for (let key in configData) {
-        data.tableConfig[key] = configData[key];
+        if (keys.includes(key)) {
+          data.tableConfig[key] = configData[key];
+        }
       }
+    };
+    const loadingData = () => {
+      let requestData = {
+        url: data.tableConfig.requestData.url,
+        method: data.tableConfig.requestData.method
+      };
+      loadingTableData(requestData)
+        .then(resonse => {
+          console.log(response.data.data.data); 
+        })
+        .catch(error => {});
     };
     return {
       data

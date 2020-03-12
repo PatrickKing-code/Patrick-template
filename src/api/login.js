@@ -36,3 +36,11 @@ export function Register(data){
         data
     })
 }
+// 表单请求
+export function loadingTableData(params){
+    return service.request({
+        method: params.method || "post",
+        url: params.url,
+        data: params.data
+    })
+}
