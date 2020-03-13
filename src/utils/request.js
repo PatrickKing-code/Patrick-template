@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Message } from "element-ui";
-
+import { getToken, getUsername } from '../utils/login'
 // 创建axios，赋给变量service
 // 地址 http://www.web-jshtml.cn/productApi
 const BASEURL = process.env.NODE_ENV === 'production' ? '' : '/devApi';
@@ -21,6 +21,8 @@ service.interceptors.request.use( config => {
     // sui
     // 业务需求
     // 最终目地不是在请求头添加参数
+    config.headers['Tokey'] = getToken()
+    config.headers['UserName'] = getUsername()
     return config;
 }, function (error) {
 // 对请求错误做些什么

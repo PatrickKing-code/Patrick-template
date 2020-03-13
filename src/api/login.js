@@ -41,6 +41,6 @@ export function loadingTableData(params){
     return service.request({
         method: params.method || "post",
         url: params.url,
-        data: params.data
+        data: params.data || {}
     })
 }

@@ -21,7 +21,6 @@
 <script>
 import TableVue from "../../components/Table";
 import { reactive } from "@vue/composition-api";
-import { requestUrl } from '../../api/requestUrl'
 export default {
   components: { TableVue },
   setup(props, { root }) {
@@ -34,7 +33,11 @@ export default {
         // 接口地址
         requestData: {
           url: 'getUserList',
-          method: 'post'
+          method: 'post',
+          data: {
+            pageNumber: 1,
+            pageSize: 10
+          }
         },
         // 表头
         tHead: [

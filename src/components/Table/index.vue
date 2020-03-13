@@ -37,6 +37,7 @@ import {
   onBeforeUpdate,
   reactive
 } from "@vue/composition-api";
+import { requestUrl } from '../../api/requestUrl'
 import { loadingTableData } from "../../api/login";
 export default {
   name: "tableVue",
@@ -47,7 +48,10 @@ export default {
     }
   },
   setup(props, { root }) {
-    onBeforeMount(() => {});
+    onBeforeMount(() => {
+      initTableConfig();
+      loadingData();
+    });
     onMounted(() => {});
     onBeforeUpdate(() => {});
     const data = reactive({
@@ -74,29 +78,28 @@ export default {
         }
       ]
     });
-    onBeforeMount(() => {
-      initTableConfig();
-      loadingData();
-    });
     const initTableConfig = () => {
-      let configData = props.config;
+      // console.log(props.config);
+      let propsData = props.config;
       let keys = Object.keys(data.tableConfig);
-      for (let key in configData) {
+      for (let key in propsData) {
         if (keys.includes(key)) {
-          data.tableConfig[key] = configData[key];
+          data.tableConfig[key] = propsData[key];
         }
       }
     };
     const loadingData = () => {
-      let requestData = {
-        url: data.tableConfig.requestData.url,
-        method: data.tableConfig.requestData.method
-      };
-      loadingTableData(requestData)
-        .then(resonse => {
-          console.log(response.data.data.data); 
-        })
-        .catch(error => {});
+      let requestJson = props.config.requestData
+      let requestApiData = {
+        url: requestUrl[requestJson.url],
+        method: requestJson.method,
+        data: requestJson.data
+      }
+      loadingTableData(requestApiData).then( responese => {
+        console.log(responese.data);
+      }).catch( error => {
+        console.log(error);
+      })
     };
     return {
       data
